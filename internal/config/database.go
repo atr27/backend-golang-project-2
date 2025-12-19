@@ -35,25 +35,30 @@ func InitDB() (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	// Auto migrate models
-	err = db.AutoMigrate(
-		&model.Station{},
-		&model.AirQuality{},
-		&model.ISPUCategory{},
-	)
+	// Only run migrations if explicitly enabled (to avoid slow startup on serverless)
+	if os.Getenv("RUN_MIGRATIONS") == "true" {
+		log.Println("Running database migrations...")
+		err = db.AutoMigrate(
+			&model.Station{},
+			&model.AirQuality{},
+			&model.ISPUCategory{},
+		)
 
-	if err != nil {
-		return nil, fmt.Errorf("failed to migrate database: %w", err)
+		if err != nil {
+			return nil, fmt.Errorf("failed to migrate database: %w", err)
+		}
+
+		log.Println("Database migrated successfully")
+
+		// Seed categories if empty
+		var count int64
+		db.Model(&model.ISPUCategory{}).Count(&count)
+		if count == 0 {
+			SeedCategories(db)
+		}
 	}
 
-	log.Println("Database connected and migrated successfully")
-
-	// Seed categories if empty
-	var count int64
-	db.Model(&model.ISPUCategory{}).Count(&count)
-	if count == 0 {
-		SeedCategories(db)
-	}
+	log.Println("Database connected successfully")
 
 	return db, nil
 }
