@@ -4,9 +4,7 @@
 Backend ini adalah layanan inti untuk sistem pemantauan Indeks Standar Pencemar Udara (ISPU). Sistem ini dirancang untuk mengumpulkan, mengelola, dan menyajikan data kualitas udara dari berbagai stasiun pemantauan secara *real-time*. Proyek ini dibangun menggunakan bahasa pemrograman Go (Golang) dengan arsitektur yang bersih dan skalabel.
 
 ## Fitur Utama
--   **Manajemen Stasiun Pemantauan**: CRUD (Create, Read, Update, Delete) untuk data stasiun pemantauan udara.
 -   **Pencatatan Data Kualitas Udara**: Merekam parameter ISPU seperti PM10, PM2.5, SO2, CO, O3, dan NO2.
--   **Dashboard Analitik**: Menyediakan ringkasan statistik, distribusi kategori kualitas udara, dan tren data terkini.
 -   **API RESTful**: Menyediakan antarmuka standar untuk komunikasi dengan frontend atau perangkat IoT.
 -   **Kategorisasi Otomatis**: Penentuan kategori ISPU (Baik, Sedang, Tidak Sehat, dll.) berdasarkan nilai pengukuran.
 
@@ -60,15 +58,3 @@ Pastikan Anda telah menginstal:
     ```bash
     go run cmd/main.go
     ```
-
-## Endpoint API Utama
-Berikut adalah beberapa endpoint utama yang tersedia:
-
--   `GET /api/v1/dashboard`: Mendapatkan ringkasan data dashboard.
--   `GET /api/v1/stations`: Mendapatkan daftar stasiun pemantauan.
--   `POST /api/v1/stations`: Menambahkan stasiun baru.
--   `GET /api/v1/air-quality`: Mendapatkan data kualitas udara.
--   `POST /api/v1/air-quality`: Mengirim data pengukuran baru.
-
----
-Dibuat untuk keperluan presentasi dan dokumentasi teknis.
